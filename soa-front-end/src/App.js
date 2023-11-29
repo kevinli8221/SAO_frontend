@@ -12,7 +12,7 @@ import Search from "./pages/search";
 import RoiCalculator from "./pages/roiCalculator";
 import StockDisplayer from "./pages/stockDisplayer";
 import StockRanker from "./pages/stockRanker";
-
+import Login from "./pages/login";
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
                 <Route path="/roiCalculator" element={<RoiCalculator />} />
                 <Route path="/stockDisplayer" element={<StockDisplayer />} />
                 <Route path="/stockRanker" element={<StockRanker />} />
+				<Route path="/login" element={<Login />} />
             </Routes>
         </Router>
   );
