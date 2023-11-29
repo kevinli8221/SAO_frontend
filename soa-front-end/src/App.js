@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React from "react";
+import { React, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import {
     BrowserRouter as Router,
@@ -15,19 +15,37 @@ import StockRanker from "./pages/stockRanker";
 import Login from "./pages/login";
 
 function App() {
-  return (
-    <Router>
-            <Navbar />
-            <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/roiCalculator" element={<RoiCalculator />} />
-                <Route path="/stockDisplayer" element={<StockDisplayer />} />
-                <Route path="/stockRanker" element={<StockRanker />} />
-				<Route path="/login" element={<Login />} />
-            </Routes>
-        </Router>
-  );
+	const [hasLogin, setHasLogin] = useState(false);
+	const [isPremium, setIsPremium] = useState(false);
+	
+	const updateLoginStatus = (loggedIn, premium) => {
+		setHasLogin(loggedIn);
+		setIsPremium(premium);
+	}
+	
+	useEffect(() => {
+		setHasLogin(localStorage.getItem("login"));
+		setIsPremium(localStorage.getItem("premium"));
+	}, []);
+	
+	if (hasLogin) {	
+		return (
+			<Router>
+				<Navbar />
+				<Routes>
+					<Route exact path="/" element={<Home />} />
+					<Route path="/search" element={<Search />} />
+					<Route path="/roiCalculator" element={<RoiCalculator />} />
+					<Route path="/stockDisplayer" element={<StockDisplayer />} />
+					<Route path="/stockRanker" element={<StockRanker />} />
+				</Routes>
+			</Router>
+		);
+	}  else {
+		return(
+			<Login />
+		);
+	}
 }
 
 export default App;

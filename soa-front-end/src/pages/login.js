@@ -1,10 +1,9 @@
 import '../App.css';
-import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { freeUser, premUser } from "./userList";
 
 
 function Login() {
-	const navigate = useNavigate();
 	const [userLogin, setUserLogin] = useState({
 		username: "",
 		password: "",
@@ -25,26 +24,36 @@ function Login() {
 	}
 	
 	const handleLoginAttempt = (e) => {
-		//todo: validate credentials
-		navigate("/");
+		
+		if (userLogin.username === freeUser.username && userLogin.password === freeUser.password) {
+			localStorage.setItem("login",true)
+			localStorage.setItem("premium",false)
+			
+		} else if (userLogin.username === premUser.username && userLogin.password === premUser.password) {
+			localStorage.setItem("login",true)
+			localStorage.setItem("premium",true)
+		}
+		
 	}
 	return(
 		<div>
-			<label>
-				Username: 
-				<input
-					value = {userLogin.username}
-					onChange = {handleUsernameUpdate}
-				/>
-			</label>
-			<label>
-				Password: 
-				<input
-					value = {userLogin.password}
-					onChange = {handlePasswordUpdate}
-				/>
-			</label>
-			<button onClick={handleLoginAttempt}>Log In</button>
+			<form onSubmit={handleLoginAttempt}>
+				<label>
+					Username: 
+					<input
+						value = {userLogin.username}
+						onChange = {handleUsernameUpdate}
+					/>
+				</label>
+				<label>
+					Password: 
+					<input
+						value = {userLogin.password}
+						onChange = {handlePasswordUpdate}
+					/>
+				</label>
+				<button type="submit">Login</button>
+			</form>
 		</div>
 	);
 }

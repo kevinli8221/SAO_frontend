@@ -22,9 +22,6 @@ const Navbar = () => {
                     <NavLink to="/stockRanker" activeStyle>
                         Stock Ranker
                     </NavLink>
-					<NavLink to="/login" activeStyle>
-						Login (TEMP)
-					</NavLink>
                 </NavMenu>
             </Nav>
         </>
