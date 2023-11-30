@@ -1,6 +1,7 @@
 import React from "react";
 import { Nav, NavLink, NavMenu } from "./NavbarElements";
  
+//temp adding login here for testing purposes
 const Navbar = () => {
     return (
         <>
