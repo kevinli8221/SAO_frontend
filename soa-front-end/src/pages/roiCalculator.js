@@ -1,11 +1,15 @@
 import React from "react";
+import Dropdown from "../components/dropdown"
+import Textfield from "../components/textfield"
+import Button from "../components/button"
  
 const roiCalculator = () => {
     return (
         <div>
-            <h1>
-                Roi Calculator Page
-            </h1>
+            <Dropdown />
+            <Textfield /> 
+            <Textfield />
+            <Button />
         </div>
     );
 };
