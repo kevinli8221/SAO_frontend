@@ -3,33 +3,20 @@ import Dropdown from "../components/dropdown"
 import Textfield from "../components/textfield"
 import Button from "../components/button"
  
-const RoiCalculator = () => {
+const RoiCalculator = (serviceInfo) => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    console.log(serviceInfo)
+
+    console.log("HERE")
   
     useEffect(() => {
       // URL of your Node.js backend endpoint
       const backendUrl = 'http://localhost:3001/data';
-  
-      fetch(backendUrl)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setData(data);
-        })
-        .catch((error) => {
-          setError(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-  
+
     }, []); // Empty dependency array ensures this effect runs only once
   
     if (loading) return <div>Loading data...</div>;

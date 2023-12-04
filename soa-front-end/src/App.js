@@ -24,7 +24,7 @@ function App() {
 	
 
 
-
+	console.log("HERE")
 	const updateLoginStatus = (loggedIn, premium) => {
 		setHasLogin(loggedIn);
 		setIsPremium(premium);
@@ -78,6 +78,7 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search />} />
+					<Route path="/pastyield" element={<RoiCalculator serviceInfo ={activeServices}/>} />
 					{/* <Route path="/pastyield" element={<RoiCalculator />} />
 					<Route path="/datadisplayer" element={<StockDisplayer />} />
 					<Route path="/rankbysector" element={<StockRanker />} /> */}
