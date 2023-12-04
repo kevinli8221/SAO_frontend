@@ -21,8 +21,6 @@ function App() {
 	const [hasLogin, setHasLogin] = useState(false);
 	const [isPremium, setIsPremium] = useState(false);
 	const [activeServices, setActiveServices] = useState({});
-	
-
 
 
 	const updateLoginStatus = (loggedIn, premium) => {
@@ -78,8 +76,8 @@ function App() {
 	}
 
 	useEffect(() => {
-		// getServiceList();
-		performSerivce();
+		getServiceList();
+		// performSerivce();
 		}, []);
 
 
@@ -97,9 +95,9 @@ function App() {
 				<Routes>
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search />} />
-					{/* <Route path="/pastyield" element={<RoiCalculator />} />
+					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
 					<Route path="/datadisplayer" element={<StockDisplayer />} />
-					<Route path="/rankbysector" element={<StockRanker />} /> */}
+					<Route path="/rankbysector" element={<StockRanker />} /> 
 				</Routes>
 				</Router>
 			<button onClick={getServiceList}>Refresh</button>

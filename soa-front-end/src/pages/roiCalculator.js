@@ -11,25 +11,11 @@ const RoiCalculator = ({serviceinfo}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const roiInfo = serviceinfo.serviceinfo.pastyield
+
     //useeffect for getting stuff services 
-    const getSelection = (name, port, endpoint) => {
-      const params = {
-        // your parameters here
-        containerName: name,
-        containerPort: port,
-        endpoint: endpoint
-      };
-      axios.get('http://localhost:3001/getselection', { params })
-        .then(response => {
-          const result = response.data
-          console.log(result)
-        })
-        .catch(error => {
-        console.error('Error fetching data:', error);
-        });
-    }
+    
 	useEffect(() => {
-		getSelection();
 		}, []);
   
      // Empty dependency array ensures this effect runs only once
