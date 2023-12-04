@@ -96,7 +96,7 @@ function App() {
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/pastyield" element={<RoiCalculator serviceInfo ={activeServices}/>} />
-					{/* <Route path="/pastyield" element={<RoiCalculator />} />
+					<Route path="/pastyield" element={<RoiCalculator />} />
 					<Route path="/datadisplayer" element={<StockDisplayer />} />
 					<Route path="/rankbysector" element={<StockRanker />} /> 
 				</Routes>
