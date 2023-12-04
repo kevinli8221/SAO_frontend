@@ -1,13 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+//dependencies
 import { React, useState, useEffect } from "react";
+import axios from 'axios';
+
+//components
+import './App.css';
 import Navbar from "./components/Navbar";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
 } from "react-router-dom";
-import Home from "./pages";
+import Home from "./pages/home";
 import Search from "./pages/search";
 import RoiCalculator from "./pages/roiCalculator";
 import StockDisplayer from "./pages/stockDisplayer";
@@ -17,12 +20,51 @@ import Login from "./pages/login";
 function App() {
 	const [hasLogin, setHasLogin] = useState(false);
 	const [isPremium, setIsPremium] = useState(false);
+	const [activeServices, setActiveServices] = useState({});
 	
+
+
+
 	const updateLoginStatus = (loggedIn, premium) => {
 		setHasLogin(loggedIn);
 		setIsPremium(premium);
 	}
 	
+	//useeffect for getting stuff services 
+	// useEffect(() => {
+	// 	const params = {
+	// 		// your parameters here
+	// 		containerName: 'pastyields',
+	// 		containerPort: '4000',
+	// 		endpoint: 'pastyieldSelection'
+	// 	};
+	// 	axios.get('http://localhost:3001/getselection', { params })
+	// 		.then(response => {
+	// 			const result = response.data
+	// 			console.log(result)
+	// 		})
+	// 		.catch(error => {
+	// 		console.error('Error fetching data:', error);
+	// 		});
+	// 	}, []);
+
+	const getServiceList = () => {
+		axios.get('http://localhost:3001/get-available-services')
+			.then(response => {
+				const result = response.data
+				setActiveServices(result)
+			})
+			.catch(error => {
+			console.error('Error fetching data:', error);
+			});
+	}
+
+	useEffect(() => {
+		getServiceList();
+		}, []);
+
+
+	//use effect for handling login
 	useEffect(() => {
 		setHasLogin(localStorage.getItem("login"));
 		setIsPremium(localStorage.getItem("premium"));
@@ -30,16 +72,19 @@ function App() {
 	
 	if (hasLogin) {	
 		return (
-			<Router>
+			<div>
+				<Router>
 				<Navbar />
 				<Routes>
-					<Route exact path="/" element={<Home />} />
+					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search />} />
-					<Route path="/roiCalculator" element={<RoiCalculator />} />
-					<Route path="/stockDisplayer" element={<StockDisplayer />} />
-					<Route path="/stockRanker" element={<StockRanker />} />
+					{/* <Route path="/pastyield" element={<RoiCalculator />} />
+					<Route path="/datadisplayer" element={<StockDisplayer />} />
+					<Route path="/rankbysector" element={<StockRanker />} /> */}
 				</Routes>
-			</Router>
+				</Router>
+			<button onClick={getServiceList}></button>
+			</div>
 		);
 	}  else {
 		return(
