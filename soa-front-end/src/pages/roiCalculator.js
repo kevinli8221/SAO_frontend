@@ -2,35 +2,37 @@ import React, { useState, useEffect } from 'react';
 import Dropdown from "../components/dropdown"
 import Textfield from "../components/textfield"
 import Button from "../components/button"
- 
-const RoiCalculator = () => {
+import axios from 'axios';
+
+
+const RoiCalculator = ({serviceinfo}) => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      // URL of your Node.js backend endpoint
-      const backendUrl = 'http://localhost:3001/data';
-  
-      fetch(backendUrl)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
+
+    //useeffect for getting stuff services 
+    const getSelection = (name, port, endpoint) => {
+      const params = {
+        // your parameters here
+        containerName: name,
+        containerPort: port,
+        endpoint: endpoint
+      };
+      axios.get('http://localhost:3001/getselection', { params })
+        .then(response => {
+          const result = response.data
+          console.log(result)
         })
-        .then((data) => {
-          setData(data);
-        })
-        .catch((error) => {
-          setError(error);
-        })
-        .finally(() => {
-          setLoading(false);
+        .catch(error => {
+        console.error('Error fetching data:', error);
         });
+    }
+	useEffect(() => {
+		getSelection();
+		}, []);
   
-    }, []); // Empty dependency array ensures this effect runs only once
+     // Empty dependency array ensures this effect runs only once
   
     if (loading) return <div>Loading data...</div>;
     if (error) return <div>Error fetching data: {error.message}</div>;
@@ -52,5 +54,5 @@ const RoiCalculator = () => {
         
     );
 };
- 
+
 export default RoiCalculator;
