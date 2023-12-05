@@ -28,6 +28,6 @@ const SearchDropdown = ({ data, onItemSelected, isDisabled=false }) => {
       />
     </div>
   );
-};
+;
 
 export default SearchDropdown;

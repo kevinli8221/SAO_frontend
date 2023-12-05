@@ -53,7 +53,7 @@ const useStockDisplayer = (serviceInfo) => {
 			containerName: displayerInfo.Name,
 			containerPort: displayerInfo.Port,
 			endpoint: displayerInfo.Endpoints.service,			
-			params: `stock_symbol=${stock}&start_date=${startDate.$y}-${startDate.$M + 1}-${startDate.$D}&end_date=${endDate.$y}-${endDate.$M + 1}-${endDate.$D}`
+			params: `stock_symbol=${stock.symbol}&start_date=${startDate.$y}-${startDate.$M + 1}-${startDate.$D}&end_date=${endDate.$y}-${endDate.$M + 1}-${endDate.$D}`
 		};
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
