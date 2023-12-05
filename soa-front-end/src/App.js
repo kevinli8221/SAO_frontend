@@ -62,7 +62,7 @@ function App() {
 						<Route path="/ranker" element={<StockRanker serviceInfo ={activeServices}/>} /> 
 					</Routes>
 				</Router>
-			<Button className="button" onClick={getServiceList}>Refresh</Button>
+			<Button className="custom-button" onClick={getServiceList}>Refresh</Button>
 			</div>
 		);
 	}  else {

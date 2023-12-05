@@ -13,3 +13,22 @@
     color: black !important; /* Change text color if needed */
     /* Add other styles for the disabled state as needed */
 }
+
+.colour-link{
+    color: blue !important;
+    font-size: 30px !important;
+    padding: 10px;
+}
+
+.title-text{
+    padding: 10px;
+    font-size: 50px;
+    font-weight: 400;
+
+}
+
+.title-subtext{
+    padding: 10px;
+    font-size: 40px;
+    font-weight: 300;
+}
