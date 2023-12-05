@@ -76,12 +76,12 @@ const RoiCalculator = (serviceinfo) => {
 
 	const handleSelectedStartDate = (startDate) => {
 		setSelectedStartDate(startDate);
-		console.log("Handle Start Date:", startDate);
+		// console.log("Handle Start Date:", startDate);
 	};
 
 	const handleSelectedEndDate = (endDate) => {
 		setSelectedEndDate(endDate);
-		console.log("Handle End Date:", endDate);
+		// console.log("Handle End Date:", endDate);
 	};
 
 
