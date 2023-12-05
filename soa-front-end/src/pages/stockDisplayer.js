@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import Dropdown from "../components/dropdown";
+import SearchDropdown from "../components/searchDropdown";
+import DateRangePicker from '../components/datePicker';
 import Textfield from "../components/textfield";
 import Button from "../components/button";
 import { LineChart } from "@mui/x-charts/LineChart";
@@ -47,7 +48,7 @@ const useStockDisplayer = (serviceinfo) => {
 			containerName: 'datadisplayer',
 			containerPort: '4001',
 			endpoint: 'displayData',
-			params: 'stock_symbol=AAPL&start_date=2015-01-01&end_date=2015-12-25'
+			params: 'stock_symbol=' + stock + '&start_date=' + startDate + '&end_date=' + endDate
 		};
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
@@ -62,45 +63,54 @@ const useStockDisplayer = (serviceinfo) => {
 
     //useeffect for getting stuff services 
     
+	const handleSelectedItems = (items) => {
+		setStock(items);
+	};
+
+	const handleDateChange = (start, end) => {
+		// Handle the date change here
+		console.log('Start Date:', start, 'End Date:', end);
+		// You can set these dates to state or pass them to other functions as needed
+		setStartDate(start);
+		setEndDate(end);
+	  };
+
 	useEffect(() => {
-		//getSelectionOptions();
-		performService();
+		getSelectionOptions();
+		//performService();
 	}, []);
   
      // Empty dependency array ensures this effect runs only once
   
-    //if (loading) return <div>Loading data...</div>;
+    if (loading) return <div>Loading data...</div>;
     if (error) return <div>Error fetching data: {error.message}</div>;
 
     return (
-        <div>
-            <Dropdown />
-            <Textfield /> 
-            <Textfield />
-            <Button onSubmit={performService}>Submit</Button>
-
-            <h1>Test Data:</h1>
-            <ul>
-                {data.map((item, index) => (
-                <li key={index}>{JSON.stringify(item)}</li>
-                ))}
-            </ul>
-
-			{selects ? 
-				<div>
-					<LineChart 
-						width = {500}
-						height = {300}
-						series={[{ dataKey: "Closing Price", }]}
-						xAxis={[{ scaleType: "point", dataKey: "Trade Date" }]}
-						dataset = {returned}>
-
-					</LineChart>
-				</div> :
+        <div>          
+			<h1 style={{padding: '20px'}}>
+				Stock Ranker Page
+			</h1>
+			{selects ?
+				<form onSubmit={performService}>
+					<SearchDropdown data={selects} onItemsSelected={handleSelectedItems}/>
+					<DateRangePicker onDateChange={handleDateChange} />
+					<button type="submit">
+						submit
+					</button>
+				</form> :
 				<div>
 					Error loading data.
 				</div>
 			}
+			{returned && 
+				<LineChart 
+					width = {500}
+					height = {300}
+					series={[{ dataKey: "Closing Price", }]}
+					xAxis={[{ scaleType: "point", dataKey: "Trade Date" }]}
+					dataset = {returned}>
+
+				</LineChart>}
         </div>
     );
 };
