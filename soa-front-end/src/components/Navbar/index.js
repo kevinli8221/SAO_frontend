@@ -16,10 +16,10 @@ const Navbar = () => {
                     <NavLink to="/pastyield">
                         ROI Calculator
                     </NavLink>
-                    <NavLink to="/stockDisplayer">
+                    <NavLink to="/dataDisplayer">
                         Stock Displayer
                     </NavLink>
-                    <NavLink to="/stockRanker">
+                    <NavLink to="/ranker">
                         Stock Ranker
                     </NavLink>
                 </NavMenu>
