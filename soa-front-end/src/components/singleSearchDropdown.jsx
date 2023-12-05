@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 
-const SearchDropdown = ({ data, onItemsSelected}) => {
+const SingleSearchDropdown = ({ data, onItemsSelected}) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleAddItem = (item) => {
@@ -22,6 +18,7 @@ const SearchDropdown = ({ data, onItemsSelected}) => {
       <Autocomplete
         options={data}
         getOptionLabel={(option) => `${option.companyName} (${option.symbol})`}
+        style={{ width: '50%' }}
         renderInput={(params) => (
           <TextField {...params} label="Search Companies" variant="outlined" />
         )}
@@ -35,4 +32,4 @@ const SearchDropdown = ({ data, onItemsSelected}) => {
   );
 };
 
-export default SearchDropdown;
+export default SingleSearchDropdown;

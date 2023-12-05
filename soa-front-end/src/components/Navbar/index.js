@@ -12,15 +12,6 @@ const Navbar = () => {
                     <NavLink to="/search">
                         Search
                     </NavLink>
-                    <NavLink to="/pastyield">
-                        ROI Calculator
-                    </NavLink>
-                    <NavLink to="/datadisplayer">
-                        Stock Displayer
-                    </NavLink>
-                    <NavLink to="/ranker">
-                        Stock Ranker
-                    </NavLink>
                 </NavMenu>
             </Nav>
         </>

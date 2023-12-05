@@ -9,8 +9,6 @@ export default function ComboBox(props) {
     value: company.symbol       // Value when an option is selected
   })) : [];
 
-  console.log(options);
-
   return (
     <Autocomplete
       disablePortal

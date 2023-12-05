@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from "react";
 import SearchDropdown from "../components/searchDropdown";
 import DateRangePicker from '../components/datePicker';
-import Textfield from "../components/textfield";
-import Button from "../components/button";
 import { LineChart } from "@mui/x-charts/LineChart";
 import axios from "axios";
 
@@ -53,7 +51,7 @@ const useStockDisplayer = (serviceInfo) => {
 			containerName: displayerInfo.Name,
 			containerPort: displayerInfo.Port,
 			endpoint: displayerInfo.Endpoints.service,			
-			params: `stock_symbol=${stock.symbol}&start_date=${startDate.$y}-${startDate.$M + 1}-${startDate.$D}&end_date=${endDate.$y}-${endDate.$M + 1}-${endDate.$D}`
+			params: `stock_symbol=${stock}&start_date=${startDate.$y}-${startDate.$M + 1}-${startDate.$D}&end_date=${endDate.$y}-${endDate.$M + 1}-${endDate.$D}`
 		};
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
@@ -83,7 +81,6 @@ const useStockDisplayer = (serviceInfo) => {
 	  };
 
 	useEffect(() => {
-		console.log(displayerInfo)
 		getSelectionOptions();
 		//performService();
 	}, []);
@@ -110,7 +107,7 @@ const useStockDisplayer = (serviceInfo) => {
 			{loadingData && <div>Loading data...</div>}
 			{selects &&
 				<form onSubmit={sendService}>
-					<SearchDropdown data={selects} onItemsSelected={handleSelectedItems}/>
+					<SearchDropdown data={selects} onItemSelected={handleSelectedItems}/>
 					<DateRangePicker onDateChange={handleDateChange} />
 					<button type="submit">
 						submit
