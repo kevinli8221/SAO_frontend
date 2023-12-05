@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import SearchDropdown from '../components/searchDropdown';
 import DateRangePicker from '../components/datePicker';
 import LoadingText from '../components/loadingText';
-import { Button } from '@mui/material';
-import './stockRanker.css'
+import './servicePage.css'
 import axios from 'axios';
 
 
 const StockRanker = (serviceInfo) => {
 	const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingData, setLoadingData] = useState(false);
+    const [loadingResults, setLoadingResults] = useState(false);
     const [error, setError] = useState(null);
 	const [stockList, setStockList] = useState(null);
 	const [selectedStock, setSelectedStock] = useState(null);
@@ -23,8 +23,8 @@ const StockRanker = (serviceInfo) => {
 	const endpointSer = info.Endpoints.service
 
     const getSelections = () => { 
-         // URL of your Node.js backend endpoint
-        const backendUrl = 'http://localhost:3001/data';
+		setLoadingData(true)
+
         const params = {
             containerName: name,
             containerPort: port,
@@ -35,17 +35,19 @@ const StockRanker = (serviceInfo) => {
         .then(response => {
             const result = response.data
 			setStockList(result);
-			setLoading(false);
+			setLoadingData(false);
 
         })
         .catch(error => {
+			setLoadingData(false)
+			setError(error.message)
             console.error('Error fetching data:', error);
         });
     }
 
 	//API request performing service with user inputs and getting the results
 	const performSerivce = () => {
-		setLoading(true)
+		setLoadingResults(true)
 		const params = {
 			// your parameters here
 			containerName: name,
@@ -56,11 +58,12 @@ const StockRanker = (serviceInfo) => {
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
 				const result = response.data
-				setLoading(false);
+				setLoadingResults(false);
 				setData(result);
 			})
 			.catch(error => {
-			console.error('Error fetching data:', error);
+				console.error('Error fetching data:', error);
+				setLoadingResults(false);
 				setError(true)
 			});
 	}
@@ -92,9 +95,10 @@ const StockRanker = (serviceInfo) => {
 		// Handle the date change here
 		setStartDate(start)
 		setEndDate(end)
-	  };
+	};
 
 	const submitForm = (event) => {
+		setError(null)
 		event.preventDefault();
 		if(selectedStock != null && startDate !=null && endDate != null){
 			performSerivce();
@@ -105,31 +109,30 @@ const StockRanker = (serviceInfo) => {
         getSelections();
     },[])
 
-    if (error) return <div>Error fetching data: {error.message}</div>;
 	return (
-		<div>
-			<h1 className="text-padding">
+		<div className='wrapper'>
+			<h1 className="service-title">
 				Stock Ranker Page
 			</h1>
-			<form onSubmit={submitForm}>
-				<div className="text-padding">
-					<SearchDropdown data={stockList} onItemSelected={handleSelectedItems} disabled={loading}/>
-				</div>
-				<div className="text-padding" >
-					<DateRangePicker onDateChange={handleDateChange} disabled={loading}/>
-				</div>
-				<div className="text-padding">
-				<Button type='submit' className='custom-button' disabled={loading}>
-					Submit
-				</Button>
-				</div>
-			</form>
-			{loading ? (
-				<div className="text-padding"><LoadingText/></div>
-				) : data && (
-					handleData(data)
-				)
+			<p>{info.Description}</p>
+
+			{error && <div>An error has occured: {error}</div>}
+
+			{loadingData && <LoadingText/>}
+
+			{stockList && 
+				<form onSubmit={submitForm} className='wrapper'>
+					<SearchDropdown data={stockList} onItemSelected={handleSelectedItems} />				
+					<DateRangePicker onDateChange={handleDateChange}/>
+					<button type='submit' className='custom-button'>
+						Submit
+					</button>
+				</form>
 			}
+			{loadingResults && <LoadingText/>}
+
+			{data && handleData(data)}
+			
 		</div>
 	);
 };

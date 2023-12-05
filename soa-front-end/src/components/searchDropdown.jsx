@@ -16,7 +16,7 @@ const SearchDropdown = ({ data, onItemSelected, isDisabled=false }) => {
         disabled = {isDisabled}
         options={data}
         getOptionLabel={(option) => `${option.companyName} (${option.symbol})`}
-        style={{ width: '50%' }}
+        style={{ width: '400px' }}
         renderInput={(params) => (
           <TextField {...params} label="Search Companies" variant="outlined" />
         )}

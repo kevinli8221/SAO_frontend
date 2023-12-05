@@ -18,7 +18,7 @@ const SingleSearchDropdown = ({ data, onItemsSelected}) => {
       <Autocomplete
         options={data}
         getOptionLabel={(option) => `${option.companyName} (${option.symbol})`}
-        style={{ width: '50%' }}
+        style={{ width: '400px' }}
         renderInput={(params) => (
           <TextField {...params} label="Search Companies" variant="outlined" />
         )}
