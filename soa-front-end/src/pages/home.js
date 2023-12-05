@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import './stockRanker.css'
+import './home.css'
 
 const Home = ({serviceInfo}) => {
     return (
-        <div>
+        <div className="home-wrapper">
             <h1 className="title-text">
                 Home Page 
             </h1>
-            <h1 className="title-subtext">List all services here</h1>
+            <h1 className="title-subtext">List Of Available Services</h1>
             <ul>
                 {
                     Object.keys(serviceInfo).map((serviceName, index) => {

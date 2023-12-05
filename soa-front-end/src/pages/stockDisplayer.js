@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import SearchDropdown from "../components/searchDropdown";
 import DateRangePicker from '../components/datePicker';
 import { LineChart } from "@mui/x-charts/LineChart";
+import LoadingText from '../components/loadingText';
+
 import axios from "axios";
 
 import './servicePage.css'
@@ -88,7 +90,7 @@ const useStockDisplayer = (serviceInfo) => {
 
 	const sendService = (event) => {
 		event.preventDefault()
-		
+		setReturned(null)
 		if (stock && startDate && endDate) {
 			performService();
 		}
@@ -111,7 +113,7 @@ const useStockDisplayer = (serviceInfo) => {
 					</button>
 				</form>				
 			}
-			{loadingResult && <div>Awaiting result...</div>}
+			{loadingResult && <LoadingText/>}
 			{returned && 
 				<LineChart 
 					width = {500}

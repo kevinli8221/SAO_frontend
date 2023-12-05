@@ -99,6 +99,7 @@ const StockRanker = (serviceInfo) => {
 
 	const submitForm = (event) => {
 		setError(null)
+		setData(null)
 		event.preventDefault();
 		if(selectedStock != null && startDate !=null && endDate != null){
 			performSerivce();

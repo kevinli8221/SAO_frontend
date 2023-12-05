@@ -1,15 +1,21 @@
 import {React, useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
+import './search.css';
 
 
 const Search = ({serviceInfo}) => {
     const [searchText, setSearchText] = useState('');
 
     const filterServices = (text) => {
-        return Object.keys(serviceInfo).filter(serviceName =>
+        return Object.entries(serviceInfo)
+            .filter(([serviceName]) =>
             serviceName.toLowerCase().includes(text.toLowerCase())
-        );
-    };
+            )
+            .map(([serviceName, serviceData]) => ({
+            name: serviceName,
+            description: serviceData.Description,
+            }));
+        };
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
@@ -20,11 +26,11 @@ const Search = ({serviceInfo}) => {
     useEffect(() => {
 		console.log("here")
 		// performSerivce();
-		}, []);
+		});
 
     return (
-        <div className="flex flex-col justify-center items-center">
-            <h1 className="text-blue-600">
+        <div className="search-wrapper">
+            <h1 className="service-title">
                 Search page
             </h1>
             <div>
@@ -34,16 +40,20 @@ const Search = ({serviceInfo}) => {
                 value={searchText}
                 onChange={handleSearchChange}
                 placeholder="Enter service name"
+                className="search-input"
                 />
             </div>
+
+            <h3 className="service-title">Results</h3>
             
 
             {searchText && filteredServices.length > 0 && (
-            <div>
-                <h1 >Matching Services:</h1>
-                <ul>
-                {filteredServices.map((serviceName) => (
-                    <Link className="text-blue-600" to={`/${serviceName}`}>{serviceName}</Link>
+            <div className="results-wrapper">
+                <ul className="colour-list">
+                {filteredServices.map(({ name, description }) => (
+                <Link to={`/${name}`} className="link">
+                    {name}  <p>Description: {description}</p>
+                </Link>
                 ))}
                 </ul>
             </div>

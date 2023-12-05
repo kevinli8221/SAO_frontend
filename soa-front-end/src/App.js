@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Button } from "@mui/material";
 
 //components
-import './App.css';
 import Navbar from "./components/Navbar";
 import {
     BrowserRouter as Router,
@@ -17,6 +16,9 @@ import RoiCalculator from "./pages/roiCalculator";
 import StockDisplayer from "./pages/stockDisplayer";
 import StockRanker from "./pages/stockRanker";
 import Login from "./pages/login";
+
+//css
+import './App.css';
 
 function App() {
 	const [hasLogin, setHasLogin] = useState(false);
