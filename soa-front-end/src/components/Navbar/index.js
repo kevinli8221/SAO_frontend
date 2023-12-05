@@ -13,7 +13,7 @@ const Navbar = () => {
                     <NavLink to="/search" activeStyle>
                         Search
                     </NavLink>
-                    <NavLink to="/roiCalculator" activeStyle>
+                    <NavLink to="/pastyield" activeStyle>
                         ROI Calculator
                     </NavLink>
                     <NavLink to="/stockDisplayer" activeStyle>
