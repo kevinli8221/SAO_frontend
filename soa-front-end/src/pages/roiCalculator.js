@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SingleSearchDropdown from '../components/singleSearchDropdown';
 import DateRangePicker from '../components/datePicker';
-import Button from "../components/button"
 import axios from 'axios';
 
 
@@ -40,8 +39,6 @@ const RoiCalculator = (serviceinfo) => {
 				setStockList(result)
                 setOptions(result)
 				setLoading(false);
-				console.log("Selection result")
-				console.log(result)
 			})
 			.catch(error => {
 				setLoading(false)
@@ -50,7 +47,7 @@ const RoiCalculator = (serviceinfo) => {
 	}
 
 	//API request performing service with user inputs and getting the results
-	const performSerivce = () => {
+	const performService = () => {
 		setLoadingRoi(true)
 		const params = {
 			// your parameters here
@@ -64,7 +61,6 @@ const RoiCalculator = (serviceinfo) => {
 				const result = response.data
 				setRoi(result.yield_percent);
 				setLoadingRoi(false)
-				console.log(result)
 			})
 			.catch(error => {
 				setLoadingRoi(false)
@@ -81,16 +77,14 @@ const RoiCalculator = (serviceinfo) => {
 		// Handle the date change here
 		setStartDate(start);
 		setEndDate(end);
-		console.log('Start Date:', start, 'End Date:', end);
 		// You can set these dates to state or pass them to other functions as needed
 	  };
 
-	const test = (event) => {
+	const submitService = (event) => {
 		event.preventDefault();
-		console.log(selectedStocks.symbol);
-		console.log(startDate);
-		console.log(endDate);
-		performSerivce()
+		if(endDate && startDate && selectedStocks){
+			performService()
+		}
 		// console.log(event.target);
 	}
 
@@ -99,7 +93,6 @@ const RoiCalculator = (serviceinfo) => {
     
 	useEffect(() => {
         getSelectionOptions();
-        console.log(roiInfo)
 		}, []);
   
      // Empty dependency array ensures this effect runs only once
@@ -109,7 +102,7 @@ const RoiCalculator = (serviceinfo) => {
 
     return (
         <div>
-            <form onSubmit={test}>
+            <form onSubmit={submitService}>
 				<SingleSearchDropdown data={stockList} onItemsSelected={handleSelectedItems} />
 				<DateRangePicker onDateChange={handleDateChange} />
 				<button type="submit">

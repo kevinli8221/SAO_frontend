@@ -23,11 +23,10 @@ function App() {
 	const [isPremium, setIsPremium] = useState(false);
 	const [activeServices, setActiveServices] = useState({});
 
-	console.log("HERE")
-	const updateLoginStatus = (loggedIn, premium) => {
-		setHasLogin(loggedIn);
-		setIsPremium(premium);
-	}
+	// const updateLoginStatus = (loggedIn, premium) => {
+	// 	setHasLogin(loggedIn);
+	// 	setIsPremium(premium);
+	// }
 	const getServiceList = () => {
 		axios.get('http://localhost:3001/get-available-services')
 			.then(response => {
@@ -41,7 +40,6 @@ function App() {
 	
 	useEffect(() => {
 		getServiceList();
-		// performSerivce();
 		}, []);
 
 
@@ -55,14 +53,14 @@ function App() {
 		return (
 			<div>
 				<Router>
-				<Navbar />
-				<Routes>
-					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
-					<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
-					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
-					<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices}/>} />
-					<Route path="/ranker" element={<StockRanker serviceInfo ={activeServices}/>} /> 
-				</Routes>
+					<Navbar />
+					<Routes>
+						<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
+						<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
+						<Route path="/pastyields" element={<RoiCalculator serviceInfo={activeServices}/>}/>
+						<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices}/>} />
+						<Route path="/ranker" element={<StockRanker serviceInfo ={activeServices}/>} /> 
+					</Routes>
 				</Router>
 			<Button className="button" onClick={getServiceList}>Refresh</Button>
 			</div>
