@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SingleSearchDropdown from '../components/singleSearchDropdown';
-import Textfield from "../components/textfield"
+import DateRangePicker from '../components/datePicker';
 import Button from "../components/button"
 import axios from 'axios';
 
@@ -13,20 +13,24 @@ const RoiCalculator = (serviceinfo) => {
     const [options, setOptions] = useState(null);
 	const [stockList, setStockList] = useState(null);
 	const [selectedStocks, setSelectedStocks] = useState(null);
-	const [selectedStartDate, setSelectedStartDate] = useState(null);
-	const [selectedEndDate, setSelectedEndDate] = useState(null);
+	const [startDate, setStartDate] = useState(null);
+	const [endDate, setEndDate] = useState(null);
 
 	// console.log(serviceinfo.serviceInfo.pastyields)
 
 	const roiInfo = serviceinfo.serviceInfo.pastyields
+	const port = roiInfo.Port
+	const name = roiInfo.Name
+	const endpoint = roiInfo.Endpoints.selection   
+	const service = roiInfo.Endpoints.service
 
     //API request to return selection options for inputs of a specific service
 	const getSelectionOptions = () => {
 		const params = {
 			// your parameters here
-			containerName: roiInfo.Name,
-			containerPort: roiInfo.Port,
-			endpoint: roiInfo.Endpoints.selection,
+			containerName: name,
+			containerPort: port,
+			endpoint: endpoint,
 		};
 		axios.get('http://localhost:3001/get-selection', { params })
 			.then(response => {
@@ -46,10 +50,10 @@ const RoiCalculator = (serviceinfo) => {
 	const performSerivce = () => {
 		const params = {
 			// your parameters here
-			containerName: roiInfo.Name,
-			containerPort: roiInfo.Port,
-			endpoint: roiInfo.Endpoints.service,
-			params: 'stock_symbol=AAPL&start_date=2015-01-01&end_date=2015-12-25'
+			containerName: name,
+			containerPort: port,
+			endpoint: service,
+			params: `stock_symbol={AAPL}&start_date=2015-01-01&end_date=2015-12-25`
 		};
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
@@ -62,27 +66,26 @@ const RoiCalculator = (serviceinfo) => {
 	}
 
 
-	const test = (event) => {
-		event.preventDefault();
-		console.log(selectedStocks);
-		console.log(selectedStartDate);
-		console.log(selectedEndDate);
-		console.log(event.target);
-	}
-
 	const handleSelectedItems = (items) => {
 		setSelectedStocks(items);
 	};
 
-	const handleSelectedStartDate = (startDate) => {
-		setSelectedStartDate(startDate);
-		// console.log("Handle Start Date:", startDate);
-	};
+	const handleDateChange = (start, end) => {
+		// Handle the date change here
+		setStartDate(start);
+		setEndDate(end);
+		console.log('Start Date:', start, 'End Date:', end);
+		// You can set these dates to state or pass them to other functions as needed
+	  };
 
-	const handleSelectedEndDate = (endDate) => {
-		setSelectedEndDate(endDate);
-		// console.log("Handle End Date:", endDate);
-	};
+	const test = (event) => {
+		event.preventDefault();
+		console.log(selectedStocks);
+		console.log(startDate);
+		console.log(endDate);
+		performSerivce()
+		console.log(event.target);
+	}
 
 
     //useeffect for getting stuff services 
@@ -101,8 +104,7 @@ const RoiCalculator = (serviceinfo) => {
         <div>
             <form onSubmit={test}>
 				<SingleSearchDropdown data={stockList} onItemsSelected={handleSelectedItems} />
-				<Textfield onItemsSelected={handleSelectedStartDate}/> 
-				<Textfield onItemsSelected={handleSelectedEndDate}/>
+				<DateRangePicker onDateChange={handleDateChange} />
 				<button type="submit">
 					submit
 				</button>
