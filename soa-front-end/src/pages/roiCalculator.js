@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import SingleSearchDropdown from '../components/singleSearchDropdown';
 import DateRangePicker from '../components/datePicker';
+import LoadingText from '../components/loadingText';
+
 import axios from 'axios';
+import './servicePage.css'
+
 
 
 const RoiCalculator = (serviceinfo) => {
 
     const [roi, setRoi] = useState([]);
-    const [loading, setLoading] = useState(true);
-	const [loadingRoi, setLoadingRoi] = useState(true);
-    const [error, setError] = useState(null);
-    const [options, setOptions] = useState(null);
+    const [loadingData, setLoadingData] = useState(false);
+	const [loadingRoi, setLoadingRoi] = useState(false);
+    const [error, setError] = useState(false);
 	const [stockList, setStockList] = useState(null);
 	const [selectedStocks, setSelectedStocks] = useState(null);
 	const [startDate, setStartDate] = useState(null);
@@ -26,7 +29,7 @@ const RoiCalculator = (serviceinfo) => {
 
     //API request to return selection options for inputs of a specific service
 	const getSelectionOptions = () => {
-		setLoading(true);
+		setLoadingData(true);
 		const params = {
 			// your parameters here
 			containerName: name,
@@ -37,11 +40,11 @@ const RoiCalculator = (serviceinfo) => {
 			.then(response => {
 				const result = response.data
 				setStockList(result)
-                setOptions(result)
-				setLoading(false);
+				setLoadingData(false);
 			})
 			.catch(error => {
-				setLoading(false)
+				setLoadingData(false)
+				setError(error.message)
 				console.error('Error fetching data:', error);
 			});
 	}
@@ -59,11 +62,12 @@ const RoiCalculator = (serviceinfo) => {
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
 				const result = response.data
-				setRoi(result.yield_percent);
+				setRoi(result.yield_percent.toFixed(2));
 				setLoadingRoi(false)
 			})
 			.catch(error => {
 				setLoadingRoi(false)
+				setError(error.message)
 				console.error('Error fetching data:', error);
 			});
 	}
@@ -78,10 +82,11 @@ const RoiCalculator = (serviceinfo) => {
 		setStartDate(start);
 		setEndDate(end);
 		// You can set these dates to state or pass them to other functions as needed
-	  };
+	};
 
 	const submitService = (event) => {
 		event.preventDefault();
+		setError(null)
 		if(endDate && startDate && selectedStocks){
 			performService()
 		}
@@ -94,27 +99,32 @@ const RoiCalculator = (serviceinfo) => {
 	useEffect(() => {
         getSelectionOptions();
 		}, []);
-  
+
      // Empty dependency array ensures this effect runs only once
-  
-    if (loading) return <div>Loading data...</div>;
-    if (error) return <div>Error fetching data: {error.message}</div>;
 
     return (
-        <div>
-            <form onSubmit={submitService}>
-				<SingleSearchDropdown data={stockList} onItemsSelected={handleSelectedItems} />
-				<DateRangePicker onDateChange={handleDateChange} />
-				<button type="submit">
-					submit
-				</button>
-			</form>
+        <div className='wrapper'>
+			<h1 className="service-title">
+				Roi Calculator Page
+			</h1>
+			<p className='description'>{roiInfo.Description}</p>
+			{error && <div>An error has occurred: {error}</div>}
+			{loadingData && <div><LoadingText/></div>}
+            {stockList && 
+				<form onSubmit={submitService} className='wrapper'>
+					<SingleSearchDropdown className="test" data={stockList} onItemsSelected={handleSelectedItems} />
+					<DateRangePicker onDateChange={handleDateChange} />
+					<button type='submit' className='custom-button'>
+						Submit
+					</button>
+				</form> }
 
-            <h1>ROI Result: {loadingRoi && <div>Awaiting result...</div>} {roi && 
-			<div>
-
-				{roi}
-			</div>}</h1>
+            <h1 className='row'>ROI Result (%): 
+				{loadingRoi && 
+					<div><LoadingText/></div>} 
+				{roi && 
+					<div>&nbsp;{roi}</div>}
+			</h1>
 	
 
         </div>

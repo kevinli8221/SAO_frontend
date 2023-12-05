@@ -4,17 +4,19 @@ import DateRangePicker from '../components/datePicker';
 import { LineChart } from "@mui/x-charts/LineChart";
 import axios from "axios";
 
+import './servicePage.css'
+
 const useStockDisplayer = (serviceInfo) => {
 
     const [loadingData, setLoadingData] = useState(false);
     const [loadingResult, setLoadingResult] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState(null);
 
 	const [selects,setSelects] = useState([]);
 	const [stock,setStock] = useState("");
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
-	const [returned, setReturned] = useState([]);
+	const [returned, setReturned] = useState(null);
 
 	//console.log(serviceinfo)
     const displayerInfo = serviceInfo.serviceInfo.datadisplayer
@@ -22,7 +24,6 @@ const useStockDisplayer = (serviceInfo) => {
 
 	const getSelectionOptions = () => {
 		setLoadingData(true)
-		setError(false)
 		const params = {
 			// your parameters here
 			containerName: displayerInfo.Name,
@@ -38,14 +39,14 @@ const useStockDisplayer = (serviceInfo) => {
 			.catch(error => {
 				console.error('Error fetching data:', error);
 				setLoadingData(false)
-				setError(true)
+				setError(error.message)
 			});
 	}
 
 	//API request performing service with user inputs and getting the results
 	const performService = () => {
 		setLoadingResult(true)
-		setError(false)
+		setError(null)
 		const params = {
 			// your parameters here
 			containerName: displayerInfo.Name,
@@ -78,13 +79,13 @@ const useStockDisplayer = (serviceInfo) => {
 		// You can set these dates to state or pass them to other functions as needed
 		setStartDate(start);
 		setEndDate(end);
-	  };
+	};
 
 	useEffect(() => {
 		getSelectionOptions();
 		//performService();
 	}, []);
-  
+
 	const sendService = (event) => {
 		event.preventDefault()
 		
@@ -93,24 +94,20 @@ const useStockDisplayer = (serviceInfo) => {
 		}
 	}
 
-     // Empty dependency array ensures this effect runs only once
-  
-    // if (loadingData) return <div>Loading data...</div>;
-    // if (error) return <div>Error fetching data</div>;
-
     return (
-        <div>
-			<h1 style={{padding: '20px'}}>
-				Stock Ranker Page
+        <div className="wrapper">
+			<h1 className="service-title">
+				Stock Displayer Page
 			</h1>
-			{error && <div>An error has occurred.</div>}
+			<p className='description'>{displayerInfo.Description}</p>
+			{error && <div>An error has occurred: {error}</div>}
 			{loadingData && <div>Loading data...</div>}
 			{selects &&
-				<form onSubmit={sendService}>
+				<form onSubmit={sendService} className="wrapper">
 					<SearchDropdown data={selects} onItemSelected={handleSelectedItems}/>
 					<DateRangePicker onDateChange={handleDateChange} />
-					<button type="submit">
-						submit
+					<button type='submit' className='custom-button'>
+						Submit
 					</button>
 				</form>				
 			}
@@ -119,8 +116,8 @@ const useStockDisplayer = (serviceInfo) => {
 				<LineChart 
 					width = {500}
 					height = {300}
-					series={[{ dataKey: "Closing Price", }]}
-					xAxis={[{ scaleType: "point", dataKey: "Trade Date" }]}
+					series={[{ dataKey: "Closing Price", label: "Closing Price"}]}
+					xAxis={[{ scaleType: "point", dataKey: "Trade Date", label: "Trade Date"}]}
 					dataset = {returned}>
 
 				</LineChart>}
