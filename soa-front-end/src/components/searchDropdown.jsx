@@ -8,6 +8,7 @@ const SearchDropdown = ({ data, onItemSelected, isDisabled=false }) => {
   const handleItemSelection = (newValue) => {
     setSelectedItem(newValue);
     onItemSelected(newValue);
+    }
   };
 
   return (

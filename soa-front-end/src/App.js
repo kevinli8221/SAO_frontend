@@ -38,27 +38,7 @@ function App() {
 				console.error('Error fetching data:', error);
 			});
 	}
-
-	//API request performing service with user inputs and getting the results
-	const performSerivce = () => {
-		const params = {
-			// your parameters here
-			containerName: 'pastyields',
-			containerPort: '4000',
-			endpoint: 'pastyields',
-			params: 'stock_symbol=AAPL&start_date=2015-01-01&end_date=2015-12-25'
-		};
-		axios.get('http://localhost:3001/get-service', { params })
-			.then(response => {
-				const result = response.data
-				console.log(result)
-			})
-			.catch(error => {
-			console.error('Error fetching data:', error);
-			});
-	}
-
-
+	
 	useEffect(() => {
 		getServiceList();
 		// performSerivce();
@@ -78,9 +58,9 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
-					<Route path="/search" element={<Search />} />
-					<Route path="/pastyield" element={<RoiCalculator serviceInfo ={activeServices}/>} />
-					<Route path="/datadisplayer" element={<StockDisplayer />} />
+					<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
+					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
+					<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices}/>} />
 					<Route path="/ranker" element={<StockRanker serviceInfo ={activeServices}/>} /> 
 				</Routes>
 				</Router>
