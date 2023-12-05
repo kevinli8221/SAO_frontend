@@ -86,6 +86,7 @@ const RoiCalculator = (serviceinfo) => {
 
 	const submitService = (event) => {
 		event.preventDefault();
+		setRoi(null)
 		setError(null)
 		if(endDate && startDate && selectedStocks){
 			performService()
