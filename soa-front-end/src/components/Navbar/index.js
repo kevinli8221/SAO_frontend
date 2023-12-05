@@ -1,7 +1,6 @@
 import React from "react";
 import { Nav, NavLink, NavMenu } from "./NavbarElements";
- 
-//temp adding login here for testing purposes
+
 const Navbar = () => {
     return (
         <>
@@ -16,7 +15,7 @@ const Navbar = () => {
                     <NavLink to="/roiCalculator" activeStyle>
                         ROI Calculator
                     </NavLink>
-                    <NavLink to="/stockDisplayer" activeStyle>
+                    <NavLink to="/datadisplayer" activeStyle>
                         Stock Displayer
                     </NavLink>
                     <NavLink to="/stockRanker" activeStyle>
