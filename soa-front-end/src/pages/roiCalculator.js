@@ -7,8 +7,9 @@ import axios from 'axios';
 
 const RoiCalculator = (serviceinfo) => {
 
-    const [data, setData] = useState([]);
+    const [roi, setRoi] = useState([]);
     const [loading, setLoading] = useState(true);
+	const [loadingRoi, setLoadingRoi] = useState(true);
     const [error, setError] = useState(null);
     const [options, setOptions] = useState(null);
 	const [stockList, setStockList] = useState(null);
@@ -26,6 +27,7 @@ const RoiCalculator = (serviceinfo) => {
 
     //API request to return selection options for inputs of a specific service
 	const getSelectionOptions = () => {
+		setLoading(true);
 		const params = {
 			// your parameters here
 			containerName: name,
@@ -42,26 +44,31 @@ const RoiCalculator = (serviceinfo) => {
 				console.log(result)
 			})
 			.catch(error => {
-			console.error('Error fetching data:', error);
+				setLoading(false)
+				console.error('Error fetching data:', error);
 			});
 	}
 
 	//API request performing service with user inputs and getting the results
 	const performSerivce = () => {
+		setLoadingRoi(true)
 		const params = {
 			// your parameters here
 			containerName: name,
 			containerPort: port,
 			endpoint: service,
-			params: `stock_symbol={AAPL}&start_date=2015-01-01&end_date=2015-12-25`
+			params: `stock_symbol=${selectedStocks.symbol}&start_date=${startDate.$y}-${startDate.$M+1}-${startDate.$D}&end_date=${endDate.$y}-${endDate.$M+1}-${endDate.$D}`
 		};
 		axios.get('http://localhost:3001/get-service', { params })
 			.then(response => {
 				const result = response.data
+				setRoi(result.yield_percent);
+				setLoadingRoi(false)
 				console.log(result)
 			})
 			.catch(error => {
-			console.error('Error fetching data:', error);
+				setLoadingRoi(false)
+				console.error('Error fetching data:', error);
 			});
 	}
 
@@ -80,11 +87,11 @@ const RoiCalculator = (serviceinfo) => {
 
 	const test = (event) => {
 		event.preventDefault();
-		console.log(selectedStocks);
+		console.log(selectedStocks.symbol);
 		console.log(startDate);
 		console.log(endDate);
 		performSerivce()
-		console.log(event.target);
+		// console.log(event.target);
 	}
 
 
@@ -110,12 +117,13 @@ const RoiCalculator = (serviceinfo) => {
 				</button>
 			</form>
 
-            <h1>Test Data:</h1>
-            <ul>
-                {data.map((item, index) => (
-                <li key={index}>{JSON.stringify(item)}</li>
-                ))}
-            </ul>
+            <h1>ROI Result: {loadingRoi && <div>Awaiting result...</div>} {roi && 
+			<div>
+
+				{roi}
+			</div>}</h1>
+	
+
         </div>
         
     );

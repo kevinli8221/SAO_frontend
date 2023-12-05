@@ -11,7 +11,7 @@ const SearchDropdown = ({ data, onItemsSelected}) => {
 
   const handleAddItem = (item) => {
     if (!selectedItems.some(selectedItem => selectedItem.symbol === item.symbol)) {
-      const newSelectedItems = [item];
+      const newSelectedItems = item;
       setSelectedItems(newSelectedItems);
       onItemsSelected(newSelectedItems);
     }
