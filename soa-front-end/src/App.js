@@ -22,48 +22,11 @@ function App() {
 	const [isPremium, setIsPremium] = useState(false);
 	const [activeServices, setActiveServices] = useState({});
 
-
+	console.log("HERE")
 	const updateLoginStatus = (loggedIn, premium) => {
 		setHasLogin(loggedIn);
 		setIsPremium(premium);
 	}
-	// //API request to return selection options for inputs of a specific service
-	// const getSelectionOptions = () => {
-	// 	const params = {
-	// 		// your parameters here
-	// 		containerName: 'pastyields',
-	// 		containerPort: '4000',
-	// 		endpoint: 'pastyieldSelection'
-	// 	};
-	// 	axios.get('http://localhost:3001/get-selection', { params })
-	// 		.then(response => {
-	// 			const result = response.data
-	// 			console.log(result)
-	// 		})
-	// 		.catch(error => {
-	// 		console.error('Error fetching data:', error);
-	// 		});
-	// }
-
-	// //API request performing service with user inputs and getting the results
-	// const performSerivce = () => {
-	// 	const params = {
-	// 		// your parameters here
-	// 		containerName: 'pastyields',
-	// 		containerPort: '4000',
-	// 		endpoint: 'pastyields',
-	// 		params: 'stock_symbol=AAPL&start_date=2015-01-01&end_date=2015-12-25'
-	// 	};
-	// 	axios.get('http://localhost:3001/get-service', { params })
-	// 		.then(response => {
-	// 			const result = response.data
-	// 			console.log(result)
-	// 		})
-	// 		.catch(error => {
-	// 		console.error('Error fetching data:', error);
-	// 		});
-	// }
-
 	const getServiceList = () => {
 		axios.get('http://localhost:3001/get-available-services')
 			.then(response => {
@@ -71,10 +34,10 @@ function App() {
 				setActiveServices(result)
 			})
 			.catch(error => {
-			console.error('Error fetching data:', error);
+				console.error('Error fetching data:', error);
 			});
 	}
-
+	
 	useEffect(() => {
 		getServiceList();
 		// performSerivce();
@@ -96,8 +59,8 @@ function App() {
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
 					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
-					<Route path="/datadisplayer" element={<StockDisplayer />} />
-					<Route path="/rankbysector" element={<StockRanker />} /> 
+					<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices}/>} />
+					<Route path="/ranker" element={<StockRanker />} /> 
 				</Routes>
 				</Router>
 			<button onClick={getServiceList}>Refresh</button>
