@@ -1,6 +1,7 @@
 import React from "react";
  
 const Search = () => {
+    console.log("HERE")
     return (
         <div>
             <h1>

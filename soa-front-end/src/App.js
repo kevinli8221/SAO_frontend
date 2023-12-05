@@ -22,26 +22,19 @@ function App() {
 	const [isPremium, setIsPremium] = useState(false);
 	const [activeServices, setActiveServices] = useState({});
 
-
+	console.log("HERE")
 	const updateLoginStatus = (loggedIn, premium) => {
 		setHasLogin(loggedIn);
 		setIsPremium(premium);
 	}
-	//API request to return selection options for inputs of a specific service
-	const getSelectionOptions = () => {
-		const params = {
-			// your parameters here
-			containerName: 'pastyields',
-			containerPort: '4000',
-			endpoint: 'pastyieldSelection'
-		};
-		axios.get('http://localhost:3001/get-selection', { params })
+	const getServiceList = () => {
+		axios.get('http://localhost:3001/get-available-services')
 			.then(response => {
 				const result = response.data
-				console.log(result)
+				setActiveServices(result)
 			})
 			.catch(error => {
-			console.error('Error fetching data:', error);
+				console.error('Error fetching data:', error);
 			});
 	}
 
@@ -64,16 +57,6 @@ function App() {
 			});
 	}
 
-	const getServiceList = () => {
-		axios.get('http://localhost:3001/get-available-services')
-			.then(response => {
-				const result = response.data
-				setActiveServices(result)
-			})
-			.catch(error => {
-			console.error('Error fetching data:', error);
-			});
-	}
 
 	useEffect(() => {
 		getServiceList();
@@ -96,8 +79,8 @@ function App() {
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
-					<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices} />} />
-					<Route path="/rankbysector" element={<StockRanker />} /> 
+					<Route path="/datadisplayer" element={<StockDisplayer />} />
+					<Route path="/ranker" element={<StockRanker />} /> 
 				</Routes>
 				</Router>
 			<button onClick={getServiceList}>Refresh</button>

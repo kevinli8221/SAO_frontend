@@ -3,20 +3,38 @@ import Dropdown from "../components/dropdown"
 import Textfield from "../components/textfield"
 import Button from "../components/button"
 import axios from 'axios';
-
-
-const RoiCalculator = ({serviceinfo}) => {
-
+ 
+const RoiCalculator = (serviceInfo) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const roiInfo = serviceinfo.serviceinfo.pastyield
-
-    //useeffect for getting stuff services 
     
-	useEffect(() => {
-		}, []);
+    const roiInfo = serviceInfo.serviceInfo.pastyield
+    console.log(serviceInfo)
+
+    const getSelections = () => {
+        const roiIP = roiInfo.roiIP
+        const roiPort = roiInfo.Port
+        const roiName = roiInfo.Name
+        const roiEndpoint = roiInfo.Endpoints.selection    
+         // URL of your Node.js backend endpoint
+        const backendUrl = 'http://localhost:3001/data';
+            const params = {
+                // your parameters here
+                containerName: roiName,
+                containerPort: roiPort,
+                endpoint: roiEndpoint
+            };
+
+        axios.get('http://localhost:3001/getselection', { params })
+            .then(response => {
+                const result = response.data
+                console.log(result)
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+        });
+    }
   
      // Empty dependency array ensures this effect runs only once
   

@@ -6,19 +6,19 @@ const Navbar = () => {
         <>
             <Nav>
                 <NavMenu>
-                    <NavLink to="/" activeStyle>
+                    <NavLink to="/">
                         Home
                     </NavLink>
-                    <NavLink to="/search" activeStyle>
+                    <NavLink to="/search">
                         Search
                     </NavLink>
-                    <NavLink to="/roiCalculator" activeStyle>
+                    <NavLink to="/pastyield">
                         ROI Calculator
                     </NavLink>
                     <NavLink to="/datadisplayer" activeStyle>
                         Stock Displayer
                     </NavLink>
-                    <NavLink to="/stockRanker" activeStyle>
+                    <NavLink to="/ranker">
                         Stock Ranker
                     </NavLink>
                 </NavMenu>
