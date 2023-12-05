@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import {React, useState} from "react";
 import { Link } from 'react-router-dom';
 import './search.css';
 
@@ -23,10 +23,6 @@ const Search = ({serviceInfo}) => {
 
     const filteredServices = filterServices(searchText);
 
-    useEffect(() => {
-		console.log("here")
-		// performSerivce();
-		});
 
     return (
         <div className="search-wrapper">
