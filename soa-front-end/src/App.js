@@ -94,7 +94,7 @@ function App() {
 				<Navbar />
 				<Routes>
 					<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
-					<Route path="/search" element={<Search />} />
+					<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
 					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
 					<Route path="/datadisplayer" element={<StockDisplayer />} />
 					<Route path="/rankbysector" element={<StockRanker />} /> 
