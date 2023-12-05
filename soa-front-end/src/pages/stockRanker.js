@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchDropdown from '../components/searchDropdown';
+import DateRangePicker from '../components/datePicker';
 import axios from 'axios';
+
 
 const StockRanker = (serviceInfo) => {
 	const [data, setData] = useState([]);
@@ -11,19 +13,18 @@ const StockRanker = (serviceInfo) => {
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
 
-    const roiInfo = serviceInfo.serviceInfo.ranker
-	const roiPort = roiInfo.Port
-	const roiName = roiInfo.Name
-	const roiEndpoint = roiInfo.Endpoints.selection   
+    const info = serviceInfo.serviceInfo.ranker
+	const port = info.Port
+	const name = info.Name
+	const endpoint = info.Endpoints.selection   
 
     const getSelections = () => { 
          // URL of your Node.js backend endpoint
         const backendUrl = 'http://localhost:3001/data';
         const params = {
-            // your parameters here
-            containerName: roiName,
-            containerPort: roiPort,
-            endpoint: roiEndpoint
+            containerName: name,
+            containerPort: port,
+            endpoint: endpoint
         };
 
         axios.get('http://localhost:3001/get-selection', { params })
@@ -48,9 +49,9 @@ const StockRanker = (serviceInfo) => {
 	const performSerivce = () => {
 		const params = {
 			// your parameters here
-			containerName: roiName,
-			containerPort: roiPort,
-			endpoint: roiEndpoint,
+			containerName: name,
+			containerPort: port,
+			endpoint: endpoint,
 			params: 'stock_symbol=AAPL&start_date=2015-01-01&end_date=2015-12-25'
 		};
 		axios.get('http://localhost:3001/get-service', { params })
@@ -67,6 +68,11 @@ const StockRanker = (serviceInfo) => {
 		setSelectedStocks(items);
 	};
 
+	const handleDateChange = (start, end) => {
+		// Handle the date change here
+		console.log('Start Date:', start, 'End Date:', end);
+		// You can set these dates to state or pass them to other functions as needed
+	  };
     useEffect(() => {
         getSelections();
     },[])
@@ -75,12 +81,12 @@ const StockRanker = (serviceInfo) => {
     if (error) return <div>Error fetching data: {error.message}</div>;
 	return (
 		<div>
-			<h1 class='text-blue-600'>
+			<h1 style={{padding: '20px'}}>
 				Stock Ranker Page
 			</h1>
 			<form onSubmit={test}>
 				<SearchDropdown data={stockList} onItemsSelected={handleSelectedItems} />
-				<input type='text'></input>
+				<DateRangePicker onDateChange={handleDateChange} />
 				<button type="submit">
 					submit
 				</button>

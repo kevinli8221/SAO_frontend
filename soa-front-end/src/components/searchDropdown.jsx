@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import { TextField } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -22,6 +22,7 @@ const SearchDropdown = ({ data, onItemsSelected }) => {
       <Autocomplete
         options={data}
         getOptionLabel={(option) => `${option.companyName} (${option.symbol})`}
+        style={{ width: '50%' }}
         renderInput={(params) => (
           <TextField {...params} label="Search Companies" variant="outlined" />
         )}
@@ -31,7 +32,7 @@ const SearchDropdown = ({ data, onItemsSelected }) => {
           }
         }}
       />
-      <List>
+      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {selectedItems.map((item, index) => (
           <ListItem key={index} disablePadding>
             <ListItemButton>
