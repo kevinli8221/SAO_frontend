@@ -1,6 +1,7 @@
 //dependencies
 import { React, useState, useEffect } from "react";
 import axios from 'axios';
+import { Button } from "@mui/material";
 
 //components
 import './App.css';
@@ -60,10 +61,10 @@ function App() {
 					<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />
 					<Route path="/pastyield" element={<RoiCalculator serviceInfo={activeServices}/>}/>
 					<Route path="/datadisplayer" element={<StockDisplayer serviceInfo={activeServices}/>} />
-					<Route path="/ranker" element={<StockRanker />} /> 
+					<Route path="/ranker" element={<StockRanker serviceInfo ={activeServices}/>} /> 
 				</Routes>
 				</Router>
-			<button onClick={getServiceList}>Refresh</button>
+			<Button className="button" onClick={getServiceList}>Refresh</Button>
 			</div>
 		);
 	}  else {

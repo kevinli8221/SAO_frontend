@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import { TextField } from '@mui/material';
 
-const SearchDropdown = ({ data, onItemsSelected}) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+const SearchDropdown = ({ data, onItemSelected, isDisabled=false }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleAddItem = (item) => {
-    if (!selectedItems.some(selectedItem => selectedItem.symbol === item.symbol)) {
-      const newSelectedItems = item;
-      setSelectedItems(newSelectedItems);
-      onItemsSelected(newSelectedItems);
+  const handleItemSelection = (newValue) => {
+    setSelectedItem(newValue);
+    onItemSelected(newValue);
     }
   };
 
   return (
     <div>
       <Autocomplete
+        disabled = {isDisabled}
         options={data}
         getOptionLabel={(option) => `${option.companyName} (${option.symbol})`}
+        style={{ width: '50%' }}
         renderInput={(params) => (
           <TextField {...params} label="Search Companies" variant="outlined" />
         )}
         onChange={(event, newValue) => {
-          if (newValue) {
-            handleAddItem(newValue);
-          }
+          handleItemSelection(newValue);
         }}
+        value={selectedItem}
       />
     </div>
   );
