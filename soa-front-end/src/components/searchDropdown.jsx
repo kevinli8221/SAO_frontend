@@ -6,12 +6,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
-const SearchDropdown = ({ data, onItemsSelected }) => {
+const SearchDropdown = ({ data, onItemsSelected}) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleAddItem = (item) => {
     if (!selectedItems.some(selectedItem => selectedItem.symbol === item.symbol)) {
-      const newSelectedItems = [...selectedItems, item];
+      const newSelectedItems = item;
       setSelectedItems(newSelectedItems);
       onItemsSelected(newSelectedItems);
     }
@@ -31,15 +31,6 @@ const SearchDropdown = ({ data, onItemsSelected }) => {
           }
         }}
       />
-      <List>
-        {selectedItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={`${item.companyName} (${item.symbol})`} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
     </div>
   );
 };
