@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SingleSearchDropdown from '../components/singleSearchDropdown';
+import SearchDropdown from '../components/searchDropdown';
+
 import DateRangePicker from '../components/datePicker';
 import LoadingText from '../components/loadingText';
 
@@ -113,7 +115,7 @@ const RoiCalculator = (serviceinfo) => {
 			{loadingData && <div><LoadingText/></div>}
             {stockList && 
 				<form onSubmit={submitService} className='wrapper'>
-					<SingleSearchDropdown className="test" data={stockList} onItemsSelected={handleSelectedItems} />
+					<SearchDropdown className="test" data={stockList} onItemSelected={handleSelectedItems} />
 					<DateRangePicker onDateChange={handleDateChange} />
 					<button type='submit' className='custom-button'>
 						Submit
