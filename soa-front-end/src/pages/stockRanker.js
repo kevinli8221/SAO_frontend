@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchDropdown from '../components/searchDropdown';
 import DateRangePicker from '../components/datePicker';
+import LoadingText from '../components/loadingText';
 import { Button } from '@mui/material';
 import './stockRanker.css'
 import axios from 'axios';
@@ -124,7 +125,7 @@ const StockRanker = (serviceInfo) => {
 				</div>
 			</form>
 			{loading ? (
-				<div className="text-padding">Loading data...</div>
+				<div className="text-padding"><LoadingText/></div>
 				) : data && (
 					handleData(data)
 				)
