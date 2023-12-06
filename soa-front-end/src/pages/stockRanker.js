@@ -81,8 +81,9 @@ const StockRanker = (serviceInfo) => {
 		});
 		return (
 			<div className='text-padding'>
+				{myStock && <div className="result">{`Your Selected Stock, ${myStock[1][0]} stock is number ${selectedStockIndex + 1} in the sector: ${selectedStock.sector}`}</div>}
 				<ul>{rankedStocks}</ul>
-				{myStock && <div>{`Your Selected Stock, ${myStock[1][0]} stock is number ${selectedStockIndex + 1}`}</div>}
+				
 			</div>
 		);
 	}
