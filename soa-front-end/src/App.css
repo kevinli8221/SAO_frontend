@@ -51,3 +51,21 @@
   color: black !important; /* Change text color if needed */
   /* Add other styles for the disabled state as needed */
 }
+
+.logout-button {
+  background-color: pink !important;
+  color: black !important;
+  width: 10% !important; 
+  margin: 20px !important;
+  position: absolute !important;
+  top: 5px;
+  left: 700px
+}
+
+.logout-button:hover {
+  background-color: yellow !important;
+}
+
+.parent {
+  position: relative;
+}

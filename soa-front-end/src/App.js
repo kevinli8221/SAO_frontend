@@ -22,7 +22,6 @@ import './App.css';
 
 function App() {
 	const [hasLogin, setHasLogin] = useState(false);
-	const [isPremium, setIsPremium] = useState(false);
 	const [activeServices, setActiveServices] = useState({});
 
 	// const updateLoginStatus = (loggedIn, premium) => {
@@ -30,7 +29,7 @@ function App() {
 	// 	setIsPremium(premium);
 	// }
 	const getServiceList = () => {
-		axios.get('http://localhost:3001/get-available-services')
+		axios.get(`http://localhost:3001/get-available-services`)
 			.then(response => {
 				const result = response.data
 				setActiveServices(result)
@@ -48,14 +47,16 @@ function App() {
 	//use effect for handling login
 	useEffect(() => {
 		setHasLogin(localStorage.getItem("login"));
-		setIsPremium(localStorage.getItem("premium"));
 	}, []);
 	
 	if (hasLogin) {	
 		return (
 			<div>
 				<Router>
-					<Navbar />
+					<Navbar className="parent"/>
+					<Button className="logout-button" onClick={() => {
+						setHasLogin(false)
+					}}>logout</Button>
 					<Routes>
 						<Route exact path="/" element={<Home serviceInfo={activeServices}/>} />
 						<Route path="/search" element={<Search  serviceInfo={activeServices}/>} />

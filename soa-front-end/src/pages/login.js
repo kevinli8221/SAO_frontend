@@ -1,6 +1,6 @@
 import '../App.css';
 import { useState } from 'react';
-import { freeUser, premUser } from "./userList";
+import { freeUser, nazim } from "./userList";
 
 
 function Login() {
@@ -29,18 +29,19 @@ function Login() {
 			localStorage.setItem("login",true)
 			localStorage.setItem("premium",false)
 			
-		} else if (userLogin.username === premUser.username && userLogin.password === premUser.password) {
+		} else if (userLogin.username === nazim.username && userLogin.password === nazim.password) {
 			localStorage.setItem("login",true)
 			localStorage.setItem("premium",true)
 		}
 		
 	}
 	return(
-		<div>
-			<form onSubmit={handleLoginAttempt}>
+		<div className='wrapper'>
+			<form onSubmit={handleLoginAttempt} className='wrapper'>
 				<label>
 					Username: 
 					<input
+						className='search-input'
 						value = {userLogin.username}
 						onChange = {handleUsernameUpdate}
 					/>
@@ -48,11 +49,12 @@ function Login() {
 				<label>
 					Password: 
 					<input
+						className='search-input'
 						value = {userLogin.password}
 						onChange = {handlePasswordUpdate}
 					/>
 				</label>
-				<button type="submit">Login</button>
+				<button className="custom-button"type="submit">Login</button>
 			</form>
 		</div>
 	);
